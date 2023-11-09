@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "942352944696",
+    "project_id": "insclone-35d5e",
+    "storage_bucket": "insclone-35d5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942352944696:android:58e365c637344a6353a0cd",
+        "android_client_info": {
+          "package_name": "com.example.ins_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3nppt5L5XGWfy3FJkrwdVVgK2dtfLDLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
