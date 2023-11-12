@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ins_clone/providers/user_provider.dart';
 import 'package:ins_clone/responses/mobile_screen_layout.dart';
 import 'package:ins_clone/responses/web_screen_layout.dart';
 import 'package:ins_clone/screens/login_screen.dart';
 import 'package:ins_clone/screens/signup_screen.dart';
 import 'package:ins_clone/utils/colors.dart';
+import 'package:provider/provider.dart';
 import 'responses/responses_layout_screen.dart';
 
 void main() async {
@@ -31,17 +34,45 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Instagram_Clone',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: mobileBackgroundColor,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Instagram_Clone',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: mobileBackgroundColor,
+        ),
+        // home: ,
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return const ResponsiveLayout(
+                  WebScreenLayout(),
+                  MobileScreenLayout(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
+              }
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
+                ),
+              );
+            }
+            return const LoginScreen();
+          },
+        ),
       ),
-      // home: const ResponsiveLayout(
-      //   WebScreenLayout(),
-      //   MobileScreenLayout(),
-      // ),
-      home: SignupScreen(),
     );
   }
 }

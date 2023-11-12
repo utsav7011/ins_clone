@@ -1,13 +1,24 @@
 import 'dart:typed_data';
-
+import 'package:ins_clone/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ins_clone/resources/storage_methods.dart';
+import 'package:ins_clone/utils/utils.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<User_model> getUserDetails() async {
+    User_model currentUser = _auth.currentUser! as User_model;
+
+    DocumentSnapshot snap =
+        await _firestore.collection('users').doc(currentUser.uid).get();
+
+    return User_model.fromSnap(snap);
+  }
+
   // signUpUser
   Future<String> signupUser(
       {required String email,
@@ -30,17 +41,21 @@ class AuthMethods {
 
         String photoUrl = await StorageMethods()
             .uploadImageToStorage('ProfilePics', file, false);
-
+        // String photoUrl = '';
         // add user to database:
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username': username,
-          'uid': cred.user!.uid,
-          'email': email,
-          'bio': bio,
-          'followers': [],
-          'follwoing': [],
-          'photoUrl': photoUrl,
-        });
+
+        User_model user = User_model(
+            bio: bio,
+            email: email,
+            followers: [],
+            follwoing: [],
+            photoUrl: photoUrl,
+            uid: cred.user!.uid,
+            username: username);
+
+        await _firestore.collection('users').doc(cred.user!.uid).set(
+              user.toJson(),
+            );
 
         // await _firestore.collection('users').add({
         //   'username': username,
@@ -52,6 +67,31 @@ class AuthMethods {
         // });
 
         res = "Success";
+      }
+    } on FirebaseAuthException catch (err) {
+      if (err.code == 'invalid-email') {
+        res = 'The email is badly formatted';
+      }
+      if (err.code == 'weak-password') {
+        res = 'the password is weak!!';
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // logging in user:
+  Future<String> LoginUser(
+      {required String email, required String password}) async {
+    String res = "Some error Occured !!";
+    try {
+      if (email.isNotEmpty || password.isNotEmpty) {
+        await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        res = 'success';
+      } else {
+        res = 'please enter all the feilds.';
       }
     } catch (err) {
       res = err.toString();
