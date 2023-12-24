@@ -2,16 +2,17 @@ import 'dart:typed_data';
 import 'package:ins_clone/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:ins_clone/resources/storage_methods.dart';
-import 'package:ins_clone/utils/utils.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<User_model> getUserDetails() async {
-    User_model currentUser = _auth.currentUser! as User_model;
+    
+    // User currentUser = _auth.currentUser;
+
+    User currentUser = _auth.currentUser!;
 
     DocumentSnapshot snap =
         await _firestore.collection('users').doc(currentUser.uid).get();
@@ -36,7 +37,7 @@ class AuthMethods {
           file != null) {
         // register user:
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password) as UserCredential;
+            email: email, password: password);
         print(cred.user!.uid);
 
         String photoUrl = await StorageMethods()
@@ -82,6 +83,7 @@ class AuthMethods {
   }
 
   // logging in user:
+  // ignore: non_constant_identifier_names
   Future<String> LoginUser(
       {required String email, required String password}) async {
     String res = "Some error Occured !!";

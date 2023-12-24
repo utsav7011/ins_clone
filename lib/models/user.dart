@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// ignore: camel_case_types
 class User_model {
   final String bio;
   final String email;
@@ -32,12 +33,13 @@ class User_model {
   static User_model fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
     return User_model(
-        bio: snapshot['bio'],
-        email: snapshot['email'],
-        followers: snapshot['followers'],
-        follwoing: snapshot['following'],
-        photoUrl: snapshot['photoUrl'],
-        uid: snapshot['uid'],
-        username: snapshot['username']);
+      bio: snapshot['bio'],
+      email: snapshot['email'],
+      followers: snapshot["followers"] != null ? snapshot["followers"] : [''],
+      follwoing: snapshot["following"] != null ? snapshot["following"] : [''],
+      photoUrl: snapshot['photoUrl'],
+      uid: snapshot['uid'],
+      username: snapshot['username'],
+    );
   }
 }

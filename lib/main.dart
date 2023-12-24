@@ -6,7 +6,6 @@ import 'package:ins_clone/providers/user_provider.dart';
 import 'package:ins_clone/responses/mobile_screen_layout.dart';
 import 'package:ins_clone/responses/web_screen_layout.dart';
 import 'package:ins_clone/screens/login_screen.dart';
-import 'package:ins_clone/screens/signup_screen.dart';
 import 'package:ins_clone/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'responses/responses_layout_screen.dart';
@@ -16,11 +15,14 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-          apiKey: 'AIzaSyAKqtjMsUtcVDDF_MR8BkQNx4HeLyNfilU',
-          appId: '1:942352944696:web:c617099379c6c21f53a0cd',
-          messagingSenderId: '942352944696',
-          projectId: 'insclone-35d5e',
-          storageBucket: 'insclone-35d5e.appspot.com'),
+        apiKey: "AIzaSyAKqtjMsUtcVDDF_MR8BkQNx4HeLyNfilU",
+        authDomain: "insclone-35d5e.firebaseapp.com",
+        projectId: "insclone-35d5e",
+        storageBucket: "insclone-35d5e.appspot.com",
+        messagingSenderId: "942352944696",
+        appId: "1:942352944696:web:c617099379c6c21f53a0cd",
+        measurementId: "G-8KX77JZ5J3",
+      ),
     );
   } else {
     await Firebase.initializeApp();

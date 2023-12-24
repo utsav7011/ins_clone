@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:ins_clone/screens/login_screen.dart';
 import 'package:ins_clone/utils/utils.dart';
 
@@ -9,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ins_clone/resources/auth_method.dart';
 import 'package:ins_clone/utils/colors.dart';
-import 'package:ins_clone/utils/utils.dart';
 import 'package:ins_clone/widgets/text_field_input.dart';
 
 import '../responses/mobile_screen_layout.dart';
@@ -44,7 +42,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void navigateToSignin() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => LoginScreen()));
+        .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   void selectImage() async {
@@ -70,8 +68,10 @@ class _SignupScreenState extends State<SignupScreen> {
     });
 
     if (res != 'success') {
+      // ignore: use_build_context_synchronously
       showSnackBar(res, context);
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const ResponsiveLayout(
@@ -98,11 +98,12 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               // svg image
               Flexible(
-                child: Container(),
                 flex: 1,
+                child: Container(),
               ),
               SvgPicture.asset(
                 'assets/ic_instagram.svg',
+                // ignore: deprecated_member_use
                 color: Colors.white,
                 height: 64,
               ),
@@ -189,15 +190,6 @@ class _SignupScreenState extends State<SignupScreen> {
               InkWell(
                 onTap: signUpUser,
                 child: Container(
-                  child: _isLoading == true
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: primaryColor,
-                          ),
-                        )
-                      : const Text(
-                          'Sign Up',
-                        ),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -209,26 +201,36 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     color: blueColor,
                   ),
+                  child: _isLoading == true
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        )
+                      : const Text(
+                          'Sign Up',
+                        ),
                 ),
               ),
               const SizedBox(
                 height: 12,
               ),
               Flexible(
-                child: Container(),
                 flex: 2,
+                child: Container(),
               ),
               // trasition to passsword;
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: const Text("Already have an account ? "),
                     padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: const Text("Already have an account ? "),
                   ),
                   GestureDetector(
                     onTap: navigateToSignin,
                     child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       child: const Text(
                         "Log in",
                         style: TextStyle(
@@ -236,7 +238,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 20),
                     ),
                   ),
                 ],

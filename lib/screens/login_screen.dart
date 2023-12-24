@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
+  @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
@@ -35,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         .push(MaterialPageRoute(builder: (context) => SignupScreen()));
   }
 
-  void loginUser() async {
+  void loginUser(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
@@ -53,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       // show snackbar:
+      // ignore: use_build_context_synchronously
       showSnackBar(res, context);
     }
     setState(() {
@@ -72,12 +74,11 @@ class _LoginScreenState extends State<LoginScreen> {
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
               // svg image
-              Flexible(
-                child: Container(),
-                flex: 1,
-              ),
+
               SvgPicture.asset(
                 'assets/ic_instagram.svg',
                 color: Colors.white,
@@ -103,17 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               InkWell(
-                onTap: loginUser,
+                onTap: () => loginUser(context),
                 child: Container(
-                  child: _isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: primaryColor,
-                          ),
-                        )
-                      : const Text(
-                          'Log in',
-                        ),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -125,26 +117,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     color: blueColor,
                   ),
+                  child: _isLoading == true
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        )
+                      : const Text(
+                          'Log in',
+                        ),
                 ),
               ),
               const SizedBox(
                 height: 12,
               ),
-              Flexible(
-                child: Container(),
-                flex: 1,
-              ),
+
               // trasition to passsword;
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: const Text("Don't have an account ? "),
                     padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: const Text("Don't have an account ? "),
                   ),
                   GestureDetector(
                     onTap: navigateToSignUp,
                     child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
@@ -152,7 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 20),
                     ),
                   ),
                 ],
