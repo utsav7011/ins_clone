@@ -9,7 +9,6 @@ class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<User_model> getUserDetails() async {
-    
     // User currentUser = _auth.currentUser;
 
     User currentUser = _auth.currentUser!;
@@ -99,5 +98,9 @@ class AuthMethods {
       res = err.toString();
     }
     return res;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

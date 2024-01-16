@@ -13,11 +13,11 @@ class LikeAnimation extends StatefulWidget {
       required this.child,
       required this.isAnimating,
       this.duration = const Duration(milliseconds: 150),
-      required this.onEnd,
+      this.onEnd,
       this.smallLike = false});
 
   @override
-  _LikeAnimationState createState() => _LikeAnimationState();
+  State<LikeAnimation> createState() => _LikeAnimationState();
 }
 
 class _LikeAnimationState extends State<LikeAnimation>

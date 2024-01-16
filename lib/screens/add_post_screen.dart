@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ins_clone/resources/firestore_methods.dart';
@@ -72,8 +71,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   void postImage(String uid, String username, String profileImage) async {
-    _isLoading = true;
     try {
+      setState(() {
+        _isLoading = true;
+      });
       String res = await FirestoreMethods().uploadPost(
         descriptionController.text,
         _file!,

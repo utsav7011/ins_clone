@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ins_clone/resources/auth_method.dart';
 import 'package:ins_clone/screens/signup_screen.dart';
 import 'package:ins_clone/utils/colors.dart';
+import 'package:ins_clone/utils/global_variables.dart';
 import 'package:ins_clone/widgets/text_field_input.dart';
 import 'package:ins_clone/utils/utils.dart';
 
@@ -33,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void navigateToSignUp() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => SignupScreen()));
+        .push(MaterialPageRoute(builder: (context) => const SignupScreen()));
   }
 
   void loginUser(BuildContext context) async {
@@ -67,10 +68,15 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 32,
-            vertical: 0,
-          ),
+          padding: MediaQuery.of(context).size.width > webScreen
+              ? EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 3,
+                  vertical: 0,
+                )
+              : const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 0,
+                ),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

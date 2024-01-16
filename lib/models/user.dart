@@ -35,8 +35,8 @@ class User_model {
     return User_model(
       bio: snapshot['bio'],
       email: snapshot['email'],
-      followers: snapshot["followers"] != null ? snapshot["followers"] : [''],
-      follwoing: snapshot["following"] != null ? snapshot["following"] : [''],
+      followers: snapshot["followers"] ?? [''],
+      follwoing: snapshot["following"] ?? [''],
       photoUrl: snapshot['photoUrl'],
       uid: snapshot['uid'],
       username: snapshot['username'],

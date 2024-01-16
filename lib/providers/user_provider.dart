@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ins_clone/models/user.dart';
 import 'package:ins_clone/resources/auth_method.dart';
